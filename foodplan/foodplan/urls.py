@@ -20,10 +20,22 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 
+from dj_rest_auth.registration.views import RegisterView
+from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
+
+from .views import user_profile
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='index.html')),
-    path('api-auth/', include('rest_framework.urls')),
+    path('', TemplateView.as_view(template_name='index.html'), name='main_page'),
+    path('accounts/', include('allauth.urls')),
+    path('accounts/profile/', user_profile, name='user_profile'),
+    # path('auth/', include('rest_framework.urls')),
+    path('api/auth/register/', RegisterView.as_view(), name='rest_register'),
+    path('api/auth/login/', LoginView.as_view(), name='rest_login'),
+    path('api/auth/logout/', LogoutView.as_view(), name='rest_logout'),
+    path('api/auth/user/', UserDetailsView.as_view(), name='rest_user_details'),
 ]
 
 if settings.DEBUG:
