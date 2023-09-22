@@ -6,12 +6,25 @@ class Culinary(models.Model):
         max_length=50,
         verbose_name='Тип меню')
 
+    image = models.ImageField(
+        verbose_name='Изображение',
+        upload_to='culinary_img',
+        null=True,
+        blank=True)
+
+    price = models.DecimalField(
+        'Цена',
+        max_digits=7,
+        decimal_places=2,
+        default=0.0)
+
     class Meta:
+        ordering = ['id']
         verbose_name = 'Тип меню'
         verbose_name_plural = 'Тип меню'
 
     def __str__(self):
-        return self.title
+        return f'{self.title}, {self.price} руб.'
 
 
 class Allergen(models.Model):
@@ -20,6 +33,7 @@ class Allergen(models.Model):
         verbose_name='Аллерген')
 
     class Meta:
+        ordering = ['id']
         verbose_name = 'Аллерген'
         verbose_name_plural = 'Аллергены'
 
@@ -84,6 +98,12 @@ class Ingredient(models.Model):
 
 
 class Food(models.Model):
+    class TypeFood(models.TextChoices):
+        BREAKFAST = 'BR', 'Завтрак'
+        LUNCH = 'LN', 'Обед'
+        DINNER = 'DN', 'Ужин'
+        DESSERT = 'DS', 'Десерт'
+
     title = models.CharField(
         max_length=50,
         verbose_name='Блюдо')
@@ -96,11 +116,18 @@ class Food(models.Model):
     culinary = models.ForeignKey(
         Culinary,
         on_delete=models.CASCADE,
-        verbose_name='Тип',
+        verbose_name='Тип меню',
         related_name='foods')
 
     recipe = models.TextField(
         verbose_name='Рецепт')
+
+    type_food = models.CharField(
+        max_length=2,
+        verbose_name='Тип блюда',
+        choices=TypeFood.choices,
+        default=TypeFood.BREAKFAST
+    )
 
     class Meta:
         verbose_name = 'Блюдо'
@@ -127,3 +154,23 @@ class ImageFood(models.Model):
 
     def __str__(self):
         return self.food.title
+
+
+class Term(models.Model):
+    title = models.CharField(
+        verbose_name='Срок',
+        max_length=50)
+
+    discount = models.DecimalField(
+        verbose_name='Скидка',
+        max_digits=3,
+        decimal_places=2,
+        default=0.0)
+
+    class Meta:
+        ordering = ['discount']
+        verbose_name = 'Срок подписки'
+        verbose_name_plural = 'Срок подписки'
+
+    def __str__(self):
+        return self.title

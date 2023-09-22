@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Culinary, Allergen, Category, Ingredient, Food, ImageFood
+from .models import Culinary, Allergen, Category, Ingredient, \
+                    Food, ImageFood, Term
 
 
 @admin.register(Culinary)
@@ -51,4 +52,12 @@ class ImageFoodAdmin(admin.ModelAdmin):
     list_display = [
         'image',
         'food',
+    ]
+
+
+@admin.register(Term)
+class TermdAdmin(admin.ModelAdmin):
+    list_display = [
+        'title',
+        'discount',
     ]
