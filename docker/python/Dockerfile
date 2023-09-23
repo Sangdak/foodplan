@@ -15,7 +15,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # instal python libraries via poetry
-COPY ../../poetry.lock pyproject.toml /
+COPY poetry.lock pyproject.toml /
 RUN poetry config virtualenvs.create false && \
     poetry install --no-interaction --no-ansi
 
