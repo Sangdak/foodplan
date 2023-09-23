@@ -32,8 +32,6 @@ services:
         ports:
             - '8000:8000'
         command: "gunicorn -c gunicorn.py foodplan.wsgi"
-        depends_on:
-            - db
     db:
         image: postgres:15
         ports:
