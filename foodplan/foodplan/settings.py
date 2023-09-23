@@ -111,7 +111,16 @@ if DEBUG and TEST_DB:
         }
     }
 else:
-    ...
+    DATABASES = {
+        'default': {
+            'ENGINE': env.str('DB_ENGINE'),
+            'NAME': env.str('DB'),
+            'USER': env.str('DB_USER'),
+            "PASSWORD": env.str('DB_PASSWORD'),
+            "HOST": env.str('DB_HOST'),
+            "PORT": env.int('DB_PORT'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

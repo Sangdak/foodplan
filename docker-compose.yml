@@ -1,0 +1,41 @@
+version: '3.11'
+
+volumes:
+    pgdata:
+        driver: local
+services:
+    nginx:
+        restart: always
+        image: nginx:latest
+        expose:
+          - 8080
+        ports:
+          - "80:8080"
+        volumes:
+            - ./foodplan/static:/opt/foodplan/foodplan/static
+            - ./foodplan/media:/opt/foodplan/foodplan/media
+            - ./foodplan/logs:/opt/foodplan/foodplan/logs
+            - ./docker/nginx:/etc/nginx/conf.d
+        depends_on:
+            - python
+    python:
+        restart: always
+        build:
+            context: .
+            dockerfile: docker/python/Dockerfile
+        volumes:
+            - ./foodplan:/opt/foodplan/foodplan
+        expose:
+          - 8000
+        ports:
+            - '8000:8000'
+        command: "gunicorn -c gunicorn.py foodplan.wsgi"
+    postgres:
+# Ниже даже расписывать не хочу, насколько все просто: логин, пароль, БД, порты и т.д.
+        image: postgres:15
+        ports:
+            - '5432:5432'
+        env_file:
+            - foodplan/.env
+        volumes:
+            - pgdata:/var/lib/postgresql/data
