@@ -1,8 +1,5 @@
 version: '3.11'
 
-volumes:
-    pgdata:
-        driver: local
 services:
     nginx:
         restart: always
