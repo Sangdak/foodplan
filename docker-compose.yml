@@ -31,7 +31,6 @@ services:
             - '8000:8000'
         command: "gunicorn -c gunicorn.py foodplan.wsgi"
     postgres:
-# Ниже даже расписывать не хочу, насколько все просто: логин, пароль, БД, порты и т.д.
         image: postgres:15
         ports:
             - '5432:5432'

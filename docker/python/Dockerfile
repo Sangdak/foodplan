@@ -9,7 +9,7 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.5.0 POETRY_HO
 ENV PATH="${PATH}:/root/poetry/bin"
 
 # project initializing
-WORKDIR /opt/study_notification_bot
+WORKDIR /opt/foodplan/foodplan
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
