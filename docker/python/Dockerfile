@@ -20,4 +20,4 @@ RUN poetry config virtualenvs.create false && \
     poetry install --no-interaction --no-ansi
 
 # copying files and dirs to the container.
-COPY ../.. .
+COPY . .
