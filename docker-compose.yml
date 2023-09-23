@@ -11,6 +11,8 @@ services:
           - 8080
         ports:
           - "80:8080"
+        env_file:
+            - ./foodplan/.env
         volumes:
             - ./foodplan/static:/opt/foodplan/foodplan/static
             - ./foodplan/media:/opt/foodplan/foodplan/media
@@ -30,11 +32,15 @@ services:
         ports:
             - '8000:8000'
         command: "gunicorn -c gunicorn.py foodplan.wsgi"
-    postgres:
+        depends_on:
+            - python
+    db:
         image: postgres:15
         ports:
             - '5432:5432'
-        env_file:
-            - foodplan/.env
+        environment:
+            - POSTGRES_USER=hello_django
+            - POSTGRES_PASSWORD=hello_django
+            - POSTGRES_DB=hello_django_dev
         volumes:
-            - pgdata:/var/lib/postgresql/data
+            - postgres_data:/var/lib/postgresql/data/
